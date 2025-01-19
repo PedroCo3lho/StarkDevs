@@ -9,7 +9,7 @@ import { tasks } from "../../utils/arrayMock";
 const Ide = dynamic(() => import("../Ide/Ide"), { ssr: false });
 
 export const Task = ({ id }: { id: number }) => {
-  const [codeData, setData] = useState<string>("");
+const [codeData, setData] = useState<any>(tasks[id-1].code);
 
   function verifyCode() {
     console.log(codeData);
@@ -21,9 +21,9 @@ export const Task = ({ id }: { id: number }) => {
       <div className="w-full h-full px-5 pb-5 ">
         <div className="w-full h-full flex border-2 rounded-xl overflow-hidden border-gray-500 relative z-0">
           <div className="w-2/5 h-full bg-white p-5">
-            <p className="text-3xl fotn-bold">{tasks[id].name}</p>
+            <p className="text-3xl fotn-bold">{tasks[id-1].name}</p>
           </div>
-          <Ide dataState={setData} />
+          <Ide initalValue={codeData} dataState={setData} />
           <MotionButton
             label="Verify"
             type="button"

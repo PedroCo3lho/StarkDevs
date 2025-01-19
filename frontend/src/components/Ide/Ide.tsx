@@ -3,14 +3,15 @@ import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-export default function Ide({ dataState }: any) {
+export default function Ide({ dataState, initalValue }: any) {
   return (
     <AceEditor
       mode="rust"
-      defaultValue="IDE"
+      defaultValue={initalValue}	
       theme="monokai"
       onChange={dataState}
       className="!w-3/5 !h-full"
+      fontSize={16}
     />
   );
 }
