@@ -9,8 +9,8 @@ import { tasks } from "../../utils/arrayMock";
 import { runCairoCode } from "@/utils/runCairoCode";
 import __wbg_init from "wasm-cairo";
 import { TestContractUi } from "../TestContractUi/TestContractUi";
+import { toast } from "react-toastify";
 const Ide = dynamic(() => import("../Ide/Ide"), { ssr: false });
-
 
 export const Task = ({ id }: { id: number }) => {
   useEffect(() => {
@@ -18,14 +18,21 @@ export const Task = ({ id }: { id: number }) => {
   }, []);
   const [codeData, setData] = useState<any>(tasks[id - 1].code);
   const [isTestUiVisible, setTestUiVisible] = useState<boolean>(false);
+  const [isTestUiEnabled, setTestUiEnabled] = useState<boolean>(false);
 
   function handleTestUi() {
     setTestUiVisible(!isTestUiVisible);
   }
-  function verifyCode() {
-    const result = runCairoCode(codeData, "COMPILE");
+  const verifyCode = async () => {
+    const result = await runCairoCode(codeData, "COMPILE");
     console.log("RESULT: ", result);
-  }
+    if (result.success) {
+      toast.success("Code compiled successfully!");
+      setTestUiEnabled(true);
+    } else {
+      toast.error("Code compilation failed!");
+    }
+  };
 
   return (
     <div className="w-full h-full flex justify-start items-center flex-col ">
@@ -59,20 +66,33 @@ export const Task = ({ id }: { id: number }) => {
             )}
 
             <div className="flex gap-3">
-              <MotionButton
-                label={isTestUiVisible ? "Close" : "Open Test UI"}
-                type="button"
-                func={handleTestUi}
-                className="
+              {isTestUiEnabled ? (
+                <MotionButton
+                  label={isTestUiVisible ? "Close" : "Open Test UI"}
+                  type="button"
+                  func={handleTestUi}
+                  className="
               w-fit bg-zinc-200 text-black font-bold hover:glow-white-md"
-              />
+                />
+              ) : (
+                <MotionButton
+                  label={"Open Test UI"}
+                  type="button"
+                  func={() => toast.error("Please compile the code first!")}
+                  className="
+            w-fit border border-zinc-200/70 text-zinc-200/70 font-bold hover:glow-white-md"
+                />
+              )}
               <MotionButton
-                label="Verify"
+                label="Compile"
                 type="button"
                 func={verifyCode}
                 className="
-            w-24 bg-zinc-200 text-black font-bold hover:glow-white-md"
+            w-fit px-2 bg-zinc-200 text-black font-bold hover:glow-white-md"
               />
+              <p className="text-xs absolute bottom-2 left-2">
+                (compiling will freeze for a few seconds)*
+              </p>
             </div>
           </div>
           <Ide initalValue={codeData} dataState={setData} />
