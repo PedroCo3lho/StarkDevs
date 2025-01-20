@@ -1,1 +1,1 @@
-mod FundRaising;
+mod DinnerEvent;

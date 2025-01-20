@@ -43,7 +43,10 @@ import { green } from "./helpers/colorize-log";
  */
 const deployScript = async (): Promise<void> => {
   await deployContract({
-    contract: "FundRaising",
+    contract: "DinnerEvent",
+    constructorArgs: {
+      host: "0x002A12CD57A05CdBc18D4041F0FdaAA898ead8365119563733151f8BB5e2F487",
+      },
   });
 };
 

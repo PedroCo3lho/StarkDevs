@@ -21,7 +21,8 @@
     "react-toastify": "^11.0.3",
     "starknet": "^6.11.0",
     "starknetkit": "^2.6.1",
-    "tailwindcss-glow": "^2.0.0-beta.1"
+    "tailwindcss-glow": "^2.0.0-beta.1",
+    "wasm-cairo": "^0.10.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
