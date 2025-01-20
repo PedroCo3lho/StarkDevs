@@ -1,4 +1,8 @@
-import { compileCairoProgram, compileStarknetContract, runTests } from '../pkg/module';
+import wasm_bindgen, {
+  compileCairoProgram,
+  compileStarknetContract,
+  runTests,
+} from "wasm-cairo";
 // import { Append } from "../types/exercise";
 // import { antiCheatAppend } from "./antiCheat";
 
@@ -7,6 +11,12 @@ interface ICompilationResult {
   result: string
   error?: string
 }
+
+// const url = new URL("../pkg/module/wasm-cairo_bg.wasm", import.meta.url).href;
+
+(async () => {
+  await wasm_bindgen();
+})();
 
 function appendCodeToFunction(
   code: string,
@@ -70,7 +80,7 @@ export const runCairoCode = (
   if (mode === "TEST") {
     result = runTests(
       appendedCode,
-      true,
+      false,
       "",
       false,
       false,
@@ -102,3 +112,5 @@ export const runCairoCode = (
     result,
   };
 };
+
+

@@ -4,13 +4,11 @@ use core::starknet::ContractAddress;
 pub trait IDinnerEvent<TContractState> {
     /// Adds the caller to the guest list.
     fn join_guest_list(ref self: TContractState, amount: u8);
-
     /// Removes the caller from the guest list.
     fn cancel_reservation(ref self: TContractState);
-
     /// Returns the number of guests.
     fn get_guests_number(self: @TContractState) -> u256;
-
+    /// Returns the host of the event.
     fn get_host(self: @TContractState) -> ContractAddress;
 }
 
