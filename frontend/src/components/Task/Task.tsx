@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { MotionButton } from "../ui/MotionButton";
 import { tasks } from "../../utils/arrayMock";
 import { runCairoCode } from "@/utils/runCairoCode";
-import __wbg_init from "../../pkg/module";
+import __wbg_init from "wasm-cairo";
 import { TestContractUi } from "../TestContractUi/TestContractUi";
 const Ide = dynamic(() => import("../Ide/Ide"), { ssr: false });
 
