@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { WalletProvider } from "@/providers/WalletProvider";
+import { StarknetProvider } from "@/providers/StarknetProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Starfield from "@/components/Starfield";
 
 export const metadata: Metadata = {
   title: "StarkDevs",
@@ -15,8 +19,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#F8F6F6]  flex flex-col justify-start items-center border text-black border-black h-screen">
-        <WalletProvider>{children}</WalletProvider>
+      <body className="bg-transparent flex flex-col justify-start items-center text-white h-screen">
+        <StarknetProvider>
+          <WalletProvider>{children}</WalletProvider>
+        </StarknetProvider>
+        <ToastContainer
+          position="top-center"
+          autoClose={2500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Starfield
+          starCount={1000}
+          starColor={[232, 255, 251]}
+          speedFactor={0.05}
+          backgroundColor="#0c0d10"
+        />
       </body>
     </html>
   );

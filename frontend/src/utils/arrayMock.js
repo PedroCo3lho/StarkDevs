@@ -1,11 +1,26 @@
-import { code } from "framer-motion/client";
+"use client";
 import { MdAttachMoney } from "react-icons/md";
+import { MdDinnerDining } from "react-icons/md";
+import { IoIosConstruct } from "react-icons/io";
 
 export const tasks = [
   {
     id: 1,
     name: "Dinner Event",
-    Icon: MdAttachMoney,
+    Icon: MdDinnerDining,
+    desc: `This code represents a Starknet smart contract for managing a dinner event.
+    
+It allows users to join a guest list, cancel their reservation, and check the number of guests and the host of the event. However, the contract is incomplete.
+
+
+`,
+    challenges: [
+      "Setting the host in the constructor.",
+      "Allowing users to join the guest list, ensuring they pay the correct ticket price.",
+      "Allowing users to cancel their reservation, ensuring they are on the guest list.",
+      "Retrieving the total number of guests.",
+      "Retrieving the host of the event.",
+    ],
     code: `/// Starknet contract for a dinner event.
     use core::starknet::{ContractAddress};
     #[starknet::interface]
@@ -62,6 +77,9 @@ export const tasks = [
         }
     }
 
+
+    // ---------------- DO NOT CHANGE ANYTHING BELOW THIS LINE ----------------
+
     use snforge_std::{ContractClassTrait, DeclareResultTrait, declare};
 
     fn deploy_contract(name: ByteArray) -> ContractAddress {
@@ -116,26 +134,26 @@ export const tasks = [
   {
     id: 2,
     name: "E-commerce",
-    Icon: MdAttachMoney,
+    Icon: IoIosConstruct,
   },
   {
     id: 3,
     name: "Social media",
-    Icon: MdAttachMoney,
+    Icon: IoIosConstruct,
   },
   {
     id: 4,
     name: "E-learning",
-    Icon: MdAttachMoney,
+    Icon: IoIosConstruct,
   },
   {
     id: 5,
     name: "Health project",
-    Icon: MdAttachMoney,
+    Icon: IoIosConstruct,
   },
   {
     id: 6,
     name: "E-commerce",
-    Icon: MdAttachMoney,
+    Icon: IoIosConstruct,
   },
 ];

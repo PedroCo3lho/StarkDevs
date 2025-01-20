@@ -18,8 +18,10 @@
     "react-ace": "^13.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
+    "react-toastify": "^11.0.3",
     "starknet": "^6.11.0",
-    "starknetkit": "^2.6.1"
+    "starknetkit": "^2.6.1",
+    "tailwindcss-glow": "^2.0.0-beta.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -7,10 +7,10 @@ export default function Ide({ dataState, initalValue }: any) {
   return (
     <AceEditor
       mode="rust"
-      defaultValue={initalValue}	
+      defaultValue={initalValue}
       theme="monokai"
       onChange={dataState}
-      className="!w-3/5 !h-full"
+      className="!w-[70%] !h-full"
       fontSize={16}
     />
   );
