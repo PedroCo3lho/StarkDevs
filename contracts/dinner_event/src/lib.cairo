@@ -1,11 +1,10 @@
-/// Interface representing `HelloContract`.
-/// This interface allows modification and retrieval of the contract balance.
-use core::starknet::{ContractAddress};
+use core::starknet::ContractAddress;
+
 #[starknet::interface]
 pub trait IDinnerEvent<TContractState> {
     /// Adds the caller to the guest list.
     fn join_guest_list(ref self: TContractState, amount: u8);
-    
+
     /// Removes the caller from the guest list.
     fn cancel_reservation(ref self: TContractState);
 
@@ -15,7 +14,6 @@ pub trait IDinnerEvent<TContractState> {
     fn get_host(self: @TContractState) -> ContractAddress;
 }
 
-/// Simple contract for managing balance.
 #[starknet::contract]
 mod DinnerEvent {
     use starknet::storage::{
@@ -23,7 +21,7 @@ mod DinnerEvent {
     };
     use core::starknet::{ContractAddress, get_caller_address};
 
-    const TICKET_PRICE:u8 = 10;
+    const TICKET_PRICE: u8 = 10;
 
     #[storage]
     struct Storage {
@@ -62,53 +60,59 @@ mod DinnerEvent {
     }
 }
 
+#[cfg(test)]
+mod test {
+    use starknet::ContractAddress;
+    use super::IDinnerEventDispatcher;
+    use super::IDinnerEventDispatcherTrait;
+    use snforge_std::{ContractClassTrait, DeclareResultTrait, declare};
 
-use snforge_std::{ContractClassTrait, DeclareResultTrait, declare};
+    fn deploy_contract(name: ByteArray) -> ContractAddress {
+        let contract = declare(name).unwrap().contract_class();
+        let mut calldata = ArrayTrait::new();
+        calldata.append('Satoshi');
+        let (contract_address, _) = contract.deploy(@calldata).unwrap();
+        contract_address
+    }
 
-fn deploy_contract(name: ByteArray) -> ContractAddress {
-    let contract = declare(name).unwrap().contract_class();
-    let mut calldata = ArrayTrait::new();
-    calldata.append('Satoshi');
-    let (contract_address, _) = contract.deploy(@calldata).unwrap();
-    contract_address
+    #[test]
+    fn test_deploy() {
+        let contract_address = deploy_contract("DinnerEvent");
+
+        let dispatcher = IDinnerEventDispatcher { contract_address };
+        let host = dispatcher.get_host();
+        assert(host == 'Satoshi'.try_into().unwrap(), 'Owner should be Satoshi');
+    }
+
+
+    #[test]
+    fn test_join_guest_list() {
+        let contract_address = deploy_contract("DinnerEvent");
+
+        let dispatcher = IDinnerEventDispatcher { contract_address };
+        let guests_before = dispatcher.get_guests_number();
+        assert(guests_before == 0, 'Invalid number of guests');
+
+        dispatcher.join_guest_list(10);
+
+        let guests_after = dispatcher.get_guests_number();
+        assert(guests_after == 1, 'Invalid number of guests');
+    }
+
+    #[test]
+    fn test_cancel_reservation() {
+        let contract_address = deploy_contract("DinnerEvent");
+
+        let dispatcher = IDinnerEventDispatcher { contract_address };
+        dispatcher.join_guest_list(10);
+
+        let guests_before = dispatcher.get_guests_number();
+        assert(guests_before == 1, 'Invalid number of guests');
+
+        dispatcher.cancel_reservation();
+
+        let guests_after = dispatcher.get_guests_number();
+        assert(guests_after == 0, 'Invalid number of guests');
+    }
 }
 
-#[test]
-fn test_deploy() {
-    let contract_address = deploy_contract("DinnerEvent");
-
-    let dispatcher = IDinnerEventDispatcher { contract_address };
-    let host = dispatcher.get_host();
-    assert(host == 'Satoshi'.try_into().unwrap(), 'Owner should be Satoshi');
-}
-
-
-#[test]
-fn test_join_guest_list() {
-    let contract_address = deploy_contract("DinnerEvent");
-
-    let dispatcher = IDinnerEventDispatcher { contract_address };
-    let guests_before = dispatcher.get_guests_number();
-    assert(guests_before == 0, 'Invalid number of guests');
-
-    dispatcher.join_guest_list(10);
-
-    let guests_after = dispatcher.get_guests_number();
-    assert(guests_after == 1, 'Invalid number of guests');
-}
-
-#[test]
-fn test_cancel_reservation() {
-    let contract_address = deploy_contract("DinnerEvent");
-
-    let dispatcher = IDinnerEventDispatcher { contract_address };
-    dispatcher.join_guest_list(10);
-
-    let guests_before = dispatcher.get_guests_number();
-    assert(guests_before == 1, 'Invalid number of guests');
-
-    dispatcher.cancel_reservation();
-
-    let guests_after = dispatcher.get_guests_number();
-    assert(guests_after == 0, 'Invalid number of guests');
-}

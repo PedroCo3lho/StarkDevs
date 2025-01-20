@@ -6,13 +6,20 @@ import { dynamicModules } from "ace-builds-internal/config";
 import { useEffect, useState } from "react";
 import { MotionButton } from "../ui/MotionButton";
 import { tasks } from "../../utils/arrayMock";
+import { runCairoCode } from "@/utils/runCairoCode";
+import __wbg_init from "../../pkg/module";
 const Ide = dynamic(() => import("../Ide/Ide"), { ssr: false });
 
+
 export const Task = ({ id }: { id: number }) => {
-const [codeData, setData] = useState<any>(tasks[id-1].code);
+  useEffect(() => {
+    __wbg_init();
+  }, []);
+const [codeData, setData] = useState<string>(tasks[id-1].code || "");
 
   function verifyCode() {
-    console.log(codeData);
+    const result = runCairoCode(codeData, "COMPILE");
+    console.log("RESULT: ", result);
   }
 
   return (
