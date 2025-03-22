@@ -13,7 +13,7 @@
     "@starknet-react/core": "^3.7.1",
     "ace-builds": "^1.37.5",
     "framer-motion": "^11.18.1",
-    "next": "15.1.5",
+    "next": "15.2.3",
     "react": "^19.0.0",
     "react-ace": "^13.0.0",
     "react-dom": "^19.0.0",
